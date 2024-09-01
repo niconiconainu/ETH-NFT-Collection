@@ -36,12 +36,12 @@ describe("MyEpicNFT", function () {
 
   describe("pickRandomFirstWord", function () {
     it("should get strings in firstWords", async function () {
-      // テストの準備を行います。
+      // テストの準備をします。
       const { MyEpicNFT, firstWords } = await loadFixture(
         deployMyEpicNFTFixture
       );
 
-      // テストを行う関数を呼び出し、結果を確認します。
+      // 実行＆確認をします。
       expect(firstWords).to.include(await MyEpicNFT.pickRandomFirstWord(0));
     });
   });
@@ -63,6 +63,17 @@ describe("MyEpicNFT", function () {
       );
 
       expect(thirdWords).to.include(await MyEpicNFT.pickRandomThirdWord(0));
+    });
+  });
+
+  describe("makeAnEpicNFT", function () {
+    it("emit a NewEpicNFTMinted event", async function () {
+      const { MyEpicNFT, owner } = await loadFixture(deployMyEpicNFTFixture);
+
+      // 発行されるイベントの確認をします。
+      await expect(MyEpicNFT.makeAnEpicNFT())
+        .to.emit(MyEpicNFT, "NewEpicNFTMinted")
+        .withArgs(owner.address, 1);
     });
   });
 });

@@ -46,6 +46,9 @@ contract MyEpicNFT is ERC721URIStorage {
         "Elephant"
     ];
 
+    // NewEpicNFTMinted イベントを定義します。
+    event NewEpicNFTMinted(address sender, uint256 tokenId);
+
     // NFT トークンの名前とそのシンボルを渡します。
     constructor() ERC721("SquareNFT", "SQUARE") {
         console.log("This is my NFT contract.");
@@ -116,7 +119,7 @@ contract MyEpicNFT is ERC721URIStorage {
             abi.encodePacked(first, second, third)
         );
 
-        // 3つの単語を連結して、<text>タグと<svg>タグで閉じます。まだ文字列
+        // 3つの単語を連結して、<text>タグと<svg>タグで閉じます。
         string memory finalSvg = string(
             abi.encodePacked(baseSvg, combinedWord, "</text></svg>")
         );
@@ -166,5 +169,7 @@ contract MyEpicNFT is ERC721URIStorage {
             newItemId,
             msg.sender
         );
+
+        emit NewEpicNFTMinted(msg.sender, newItemId);
     }
 }
